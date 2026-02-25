@@ -1,3 +1,17 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: white;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .thick-text {
     font-family: 'Arial', sans-serif;
     font-size: 18px;
@@ -19,16 +33,60 @@
     color: #000000;
     text-align: center;
 }
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    color: #ffffff;
+    background-color: #4495ff;
+    cursor: pointer;
+    
+    transition: border-color 0.3s;
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; 
+}
+button:hover {
+    border-color: #1622ff;
+}
 .search-group {
+    background: #f0f0f0;
     display: flex;          /* Включаем гибкий контейнер */
     flex-direction: column;
     justify-content: center; /* Центрируем по горизонтали */
     align-items: center;     /* Центрируем по вертикали (если разная высота) */
-    margin-top: 5px;        /* Просто отступ сверху для наглядности */
+    
 }
-.search-group input, 
+.search-group input{
+    border-radius: 10px;
+    border: 1px solid transparent;
+    border-color: #babeff;
+    transition: border-color 0.3s;
+    height: 30px;
+    padding-right: 50px;
+    
+    box-sizing: border-box; /* Чтобы padding не раздувал элементы */
+}
+.search-group input:hover {
+    border-color: #6a71ff;
+}
 .search-group button {
     height: 30px;
     padding: 0 2px;
     box-sizing: border-box; /* Чтобы padding не раздувал элементы */
+}
+
+
+.footer-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* Центрируем содержимое по горизонтали */
+    justify-content: center; /* Центрируем содержимое по вертикали */
+    width: 100%;
+
+    background: rgb(241, 241, 241);
+    position: fixed;
+    bottom: 0; 
 }
