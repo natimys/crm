@@ -1,13 +1,12 @@
 version: "2"
 meta:
-  name: "ophthalmology-crm"
+  name: "ophthalmology-hospital"
   environment: "docker"
   toolchain:
     name: "docker"
     version: "latest"
 build:
-  dockerfile: "Dockerfile"
-  context: "."
+  dockerfile: "Dockerfile" 
 run:
   persistence:
     - mountPath: "/app/static/uploads"
