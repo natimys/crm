@@ -1,20 +1,42 @@
-import { Link } from 'react-router-dom';
-import { Button, Footer, getCookie, setCookie } from '../functions.jsx';
+import { Button, Footer, Table, Header } from '../functions.jsx';
 import '../styles.css';
+
 
 function Lk() {
     return (
         <>
-            <div>
-                <p class="main-text">Личный кабинет</p>
+        <Header/>
+        <body class="body-dashboard">
+            
+            <div class="container">
+                <p class="main-text">Дэшборд</p>
+                <header class="stats-grid">
+                    <div class="card blue">
+                        <h3>Пациенты</h3>
+                        <p>40</p>
+                    </div>
+                    <div class="card green">
+                        <h3>Готовы к операции</h3>
+                        <p>3</p>
+                    </div>
+                    <div class="card orange">
+                        <h3>В процессе сдачи анализов</h3>
+                        <p>452</p>
+                    </div>
+                    <div class="card red">
+                        <h3>Требующих консультации</h3>
+                        <p>4325</p>
+                    </div>
+                </header>
 
-                <div class="lk-group">
-                    <p class="thick-text">Имя: dddddddddddddddddddddddd{getCookie("name")}</p>
-                    <p class="thick-text">Должность: {getCookie("role")}</p>
-                    <p class="thick-text">лол {getCookie("role")}</p>
-                </div>
-                <Footer/>
+                <main class="table-container">
+                    <h2 class="thick-text">Список пациентов</h2>
+                    <Table></Table>
+                </main>
+                
             </div>
+        </body>
+        <Footer/>
         </>
     )
 }

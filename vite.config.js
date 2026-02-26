@@ -6,3 +6,5 @@ export default defineConfig({
   root: 'src/frontend',
   plugins: [react()],
 })
+
+
