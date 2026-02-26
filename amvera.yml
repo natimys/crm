@@ -1,0 +1,17 @@
+version: "2"
+meta:
+  name: "ophthalmology-crm"
+  environment: "docker"
+  toolchain:
+    name: "docker"
+    version: "latest"
+build:
+  dockerfile: "Dockerfile"
+  context: "."
+run:
+  persistence:
+    - mountPath: "/app/static/uploads"
+      name: "storage"
+  ports:
+    - name: "http"
+      port: 8000
