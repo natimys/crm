@@ -51,13 +51,29 @@ button {
 button:hover {
     border-color: #1622ff;
 }
+
+
+.lk-group {
+    display: flex;
+    justify-content: left; /* Центрируем содержимое по вертикали */
+    flex-direction:column;
+    width: 100%;
+    background: rgb(236, 236, 236);
+
+    margin: 0 auto;
+    width: max-content;
+    transform: translateX(-400px); /* Сдвигает ровно на 30px влево относительно центра */
+}
+
+
+
+
 .search-group {
     background: #f0f0f0;
     display: flex;          /* Включаем гибкий контейнер */
     flex-direction: column;
     justify-content: center; /* Центрируем по горизонтали */
     align-items: center;     /* Центрируем по вертикали (если разная высота) */
-    
 }
 .search-group input{
     border-radius: 10px;
