@@ -1,0 +1,14 @@
+fastapi==0.133.0
+jose==1.0.0
+pydantic==2.12.5
+pydantic_extra_types==2.11.0
+pydantic_settings==2.13.1
+pydantic[email]
+python_jose==3.5.0
+SQLAlchemy[asyncio]
+uvicorn==0.41.0
+phonenumbers
+asyncpg
+alembic
+bcrypt
+passlib[bcrypt]
