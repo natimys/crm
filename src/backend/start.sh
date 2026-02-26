@@ -9,4 +9,4 @@ echo "Applying migrations..."
 alembic upgrade head
 
 echo "Starting API..."
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+python -m uvicorn app.main:app --host $APP_HOST --port $APP_PORT --reload

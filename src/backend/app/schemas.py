@@ -31,6 +31,16 @@ class UserResponse(BaseModel):
     role: UserRole
 
 
+class PatientDashboardResponse(BaseModel):
+    id: int
+    full_name: str
+    status: str
+    color: str
+    completion_percent: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"

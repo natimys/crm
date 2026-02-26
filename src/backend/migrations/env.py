@@ -10,16 +10,14 @@ from alembic import context
 import sys
 from os.path import abspath, dirname
 
-sys.path.insert(0, dirname(dirname(abspath(__file__)))) 
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
-from app.config import settings
 from app.models import Base
+from app.config import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-config.set_main_option("sqlalchemy.url", settings.database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -30,8 +28,6 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app.models import Base
-from app import models
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -91,7 +87,7 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-
+    config.set_main_option("sqlalchemy.url", settings.database_url)
     asyncio.run(run_async_migrations())
 
 

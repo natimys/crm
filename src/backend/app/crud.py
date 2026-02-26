@@ -1,14 +1,17 @@
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from fastapi import Depends
+
 from app.engine import get_db
-from app.models import User
-from app.schemas import UserCreate
+from app.models import User, Patient
+from app.schemas import UserCreate, UserRole
 from app.security import get_password_hash
 
 
 async def get_user(user_id, db: AsyncSession) -> User | None:
-    result = await db.execute(select(User).where(User.id) == user_id)
+    result = await db.execute(select(User).where(User.id == user_id))
     return result.scalar_one_or_none()
 
 
@@ -46,3 +49,22 @@ async def create_user(user: UserCreate, db: AsyncSession) -> User:
     await db.refresh(db_user)
 
     return db_user
+
+async def get_patients_by_doctor(
+        doctor_id: int,
+        role: UserRole,
+        db: AsyncSession,
+        limit: int = 10,
+        offset: int = 0
+    ):
+    query = (select(Patient).options(
+        selectinload(Patient.user),
+        selectinload(Patient.documents),
+        selectinload(Patient.records)
+        ).limit(limit).offset(offset)
+    )
+    if role == UserRole.OPHTALM:
+        query = query.where(Patient.doctor_id == doctor_id)
+    
+    result = await db.execute(query)
+    return result.scalars().all()

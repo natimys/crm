@@ -1,7 +1,5 @@
 .PHONY: start migrate build
 
-all: start
-
 up:
 	docker compose up -d
 	docker compose logs -f

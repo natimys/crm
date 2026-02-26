@@ -55,6 +55,17 @@ class Patient(Base):
     user: Mapped["User"] = relationship(back_populates="patient_profile", foreign_keys=[user_id])
     records: Mapped[list["MedicalRecord"]] = relationship(back_populates="patient", lazy="selectin")
     documents: Mapped["PatientDocument"] = relationship(back_populates="patient")
+    @property
+    def calculated_status(self):
+        # Логика инкапсулирована в модели
+        has_docs = self.documents and self.documents.passport_number and self.documents.passport_serial
+        record_count = len(self.records)
+        
+        if not has_docs:
+            return "red", 100 if False else 10 # color, percent
+        if record_count < 3:
+            return "yellow", 50
+        return "green", 100
 
 
 class PatientDocument(Base):

@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,11 +11,18 @@ security = HTTPBearer()
 
 
 async def get_current_user(
-        credentials: HTTPAuthorizationCredentials = Depends(security),
-        db: AsyncSession = Depends(get_db)
+        request: Request,
+        db: AsyncSession = Depends(get_db),
     ) -> User:
 
-    token = credentials.credentials
+    token = request.cookies.get("access_token")
+
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Not authorized"
+        )
+
     payload = decode_token(token)
 
     if not payload:
@@ -31,7 +38,7 @@ async def get_current_user(
             detail="Invalid token payload"
         )
     
-    user = await get_user(user_id, db)
+    user = await get_user(int(user_id), db)
     if not user:
         raise HTTPException(
             status_code=401,
