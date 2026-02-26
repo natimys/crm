@@ -45,3 +45,13 @@ async def get_current_user(
             detail="User not found"
         )
     return user
+
+def role_required(required_role: UserRole): 
+    async def role_checker(current_user: User = Depends(get_current_user)): 
+        if current_user.role != required_role: 
+            raise HTTPException( 
+                status_code=403, 
+                detail=f"Role required {required_role.value}" 
+                ) 
+        return current_user 
+    return role_checker

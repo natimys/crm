@@ -57,12 +57,14 @@ class Patient(Base):
     documents: Mapped["PatientDocument"] = relationship(back_populates="patient")
     @property
     def calculated_status(self):
-        # Логика инкапсулирована в модели
-        has_docs = self.documents and self.documents.passport_number and self.documents.passport_serial
-        record_count = len(self.records)
+        if not self.documents:
+            return "red", 0
+            
+        has_docs = all([self.documents.passport_number, self.documents.passport_serial, self.documents.snils])
+        record_count = len(self.records) if self.records else 0
         
         if not has_docs:
-            return "red", 100 if False else 10 # color, percent
+            return "red", 15
         if record_count < 3:
             return "yellow", 50
         return "green", 100
@@ -74,10 +76,10 @@ class PatientDocument(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     patient_id: Mapped[int] = mapped_column(ForeignKey("patients.id"))
     
-    passport_serial: Mapped[str] = mapped_column(String(4))
-    passport_number: Mapped[str] = mapped_column(String(6))
-    snils: Mapped[str] = mapped_column(String(11))
-    insurance: Mapped[str] = mapped_column(String(16))
+    passport_serial: Mapped[Optional[str]] = mapped_column(String(4), nullable=True)
+    passport_number: Mapped[Optional[str]] = mapped_column(String(6), nullable=True)
+    snils: Mapped[Optional[str]] = mapped_column(String(11), nullable=True)
+    insurance: Mapped[Optional[str]] = mapped_column(String(16), nullable=True)
 
     patient: Mapped["Patient"] = relationship(back_populates="documents")
 

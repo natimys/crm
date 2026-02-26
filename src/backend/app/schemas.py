@@ -41,6 +41,18 @@ class PatientDashboardResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class PatientCreate(BaseModel):
+    user_id: int | None = None
+    login: str | None = None
+    email: EmailStr | None = None
+    first_name: str | None = None
+    second_name: str | None = None
+    surname: str | None = None
+    phone: str | None = None
+    password: str | None = None
+
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"

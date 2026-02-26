@@ -17,7 +17,7 @@ migrate:
 
 create-migration:
 	@if [ -z "$(desc)" ]; then echo "Error: desc is required"; exit 1; fi
-	docker compose exec $(BACKEND_SVC) alembic revision --autogenerate -m "$(desc)"
+	docker compose run --rm $(BACKEND_SVC) alembic revision --autogenerate -m "$(desc)"
 
 logs:
 	docker compose logs -f
