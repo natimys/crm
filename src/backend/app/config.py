@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
     access_token_expire_min: int = 30
 
+    s3_endpoint: str = "http://minio:9000"
+    s3_access_key: str = "minioadmin"
+    s3_secret_key: str = "minioadmin"
+    s3_bucket: str = "med-docs"
     
 
     class Config:

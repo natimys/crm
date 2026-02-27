@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth_router, dashboard_router
+from app.routers import auth_router, dashboard_router, media_router
 from app.config import settings
 
 
@@ -18,7 +18,7 @@ app.add_middleware(
 # добавление роутеров
 app.include_router(auth_router)
 app.include_router(dashboard_router)
-
+app.include_router(media_router)
 
 # проверка доступности
 @app.get("/health")

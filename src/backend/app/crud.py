@@ -5,32 +5,32 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import Depends, HTTPException
 
 from app.engine import get_db
-from app.models import User, Patient, PatientDocument
-from app.schemas import UserCreate, UserRole, PatientCreate
+from app.models import User, Patient, PatientDocument, PatientChecklist, Checklist
+from app.schemas import UserCreate, UserRole, PatientCreate, ChecklistCreate
 from app.security import get_password_hash
 
 
-async def get_user(user_id, db: AsyncSession) -> User | None:
+async def get_user(user_id, db: AsyncSession = Depends(get_db)) -> User | None:
     result = await db.execute(select(User).where(User.id == user_id))
     return result.scalar_one_or_none()
 
 
-async def get_user_by_phone(phone: str, db: AsyncSession) -> User | None:
+async def get_user_by_phone(phone: str, db: AsyncSession = Depends(get_db)) -> User | None:
     result = await db.execute(select(User).where(User.phone_number == phone))
     return result.scalar_one_or_none()
 
 
-async def get_user_by_email(email: str, db: AsyncSession) -> User | None:
+async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)) -> User | None:
     result = await db.execute(select(User).where(User.email == email))
     return result.scalar_one_or_none()
 
 
-async def get_user_by_login(login: str, db: AsyncSession) -> User | None:
+async def get_user_by_login(login: str, db: AsyncSession = Depends(get_db)) -> User | None:
     result = await db.execute(select(User).where(User.login == login))
     return result.scalar_one_or_none()
 
 
-async def create_user(user: UserCreate, db: AsyncSession) -> User:
+async def create_user(user: UserCreate, db: AsyncSession = Depends(get_db)) -> User:
     hashed_password = get_password_hash(user.password)
     db_user = User(
         login=user.login,
@@ -74,7 +74,7 @@ async def get_patients_by_doctor(
     result = await db.execute(query)
     return result.scalars().all()
 
-async def create_or_link_patient(db: AsyncSession, patient_data: PatientCreate, doctor_id: int):
+async def create_or_link_patient(patient_data: PatientCreate, doctor_id: int, db: AsyncSession = Depends(get_db)):
     if patient_data.user_id:
         target_user_id = patient_data.user_id
         existing_patient = await db.execute(
@@ -115,3 +115,14 @@ async def create_or_link_patient(db: AsyncSession, patient_data: PatientCreate, 
     await db.commit()
     await db.refresh(new_patient)
     return new_patient
+
+async def update_checklist_item(
+        patient_id: int,
+        update_data: ChecklistCreate,
+        db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(PatientChecklist)
+        .where(PatientChecklist.patient_id == patient_id)
+        .where(PatientChecklist.task_id == update_data.task_id)
+    )

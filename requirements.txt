@@ -12,3 +12,6 @@ asyncpg
 alembic
 bcrypt
 passlib[bcrypt]
+python-multipart
+Pillow
+aioboto3
